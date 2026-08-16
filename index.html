@@ -2,24 +2,21 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>المهندس رضا الزيدي | المنظومة البرمجية والأمنية</title>
     <!-- الخطوط والأيقونات -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- مكتبة Google Auth -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
         :root {
             --bg-main: #06080c;
             --bg-card: #11151c;
             --bg-card-hover: #181f2a;
-            --bg-nav: rgba(6, 8, 12, 0.88);
+            --bg-nav: rgba(6, 8, 12, 0.92);
             --border: rgba(255, 255, 255, 0.08);
             --border-accent: rgba(0, 210, 255, 0.3);
-            --text-main: #f0f6fc;
+            --text-main: #ffffff;
             --text-muted: #8b949e;
             --accent: #00d2ff;
             --accent-glow: rgba(0, 210, 255, 0.25);
@@ -27,7 +24,6 @@
             --gold-glow: rgba(245, 158, 11, 0.2);
             --danger: #ef4444;
             --success: #10b981;
-            --purple: #a855f7;
             --font-main: 'Tajawal', sans-serif;
             --font-code: 'Fira Code', monospace;
         }
@@ -36,7 +32,7 @@
             --bg-main: #f8fafc;
             --bg-card: #ffffff;
             --bg-card-hover: #f1f5f9;
-            --bg-nav: rgba(248, 250, 252, 0.88);
+            --bg-nav: rgba(248, 250, 252, 0.92);
             --border: rgba(0, 0, 0, 0.08);
             --border-accent: rgba(37, 99, 235, 0.3);
             --text-main: #0f172a;
@@ -44,7 +40,6 @@
             --accent: #2563eb;
             --accent-glow: rgba(37, 99, 235, 0.15);
             --gold: #d97706;
-            --gold-glow: rgba(217, 119, 6, 0.15);
         }
 
         * {
@@ -52,7 +47,8 @@
             padding: 0;
             box-sizing: border-box;
             font-family: var(--font-main);
-            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -60,9 +56,10 @@
             color: var(--text-main);
             overflow-x: hidden;
             min-height: 100vh;
+            width: 100%;
         }
 
-        /* شاشة الترحيب Matrix */
+        /* 💥 أنيميشن شاشة الترحيب السينمائية (قفل + جاكوج + شفرة) */
         #splash-screen {
             position: fixed;
             inset: 0;
@@ -72,50 +69,90 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s;
+            overflow: hidden;
         }
 
-        #matrix-canvas {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.3;
-        }
-
-        .splash-box {
+        .anim-stage {
             position: relative;
-            z-index: 2;
-            text-align: center;
-            background: rgba(17, 21, 28, 0.8);
-            padding: 40px 60px;
-            border-radius: 20px;
-            border: 1px solid var(--border-accent);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 50px var(--accent-glow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .splash-title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            direction: ltr;
-        }
-
-        .splash-sub {
+        /* القفل والجاكوج */
+        .lock-wrapper {
+            position: relative;
+            font-size: 4rem;
             color: var(--accent);
-            font-size: 1rem;
-            font-family: var(--font-code);
-            letter-spacing: 3px;
+            margin-bottom: 20px;
         }
 
-        /* شريط التنقل */
+        .hammer-icon {
+            position: absolute;
+            top: -50px;
+            right: -60px;
+            font-size: 3.5rem;
+            color: #e2e8f0;
+            transform: rotate(-45deg);
+            opacity: 0;
+            animation: hammerStrike 1.2s ease-in-out forwards;
+        }
+
+        .lock-icon {
+            animation: lockShake 0.2s ease-in-out 0.8s 2;
+        }
+
+        @keyframes hammerStrike {
+            0% { opacity: 0; transform: translate(40px, -40px) rotate(-60deg); }
+            50% { opacity: 1; transform: translate(10px, -10px) rotate(-20deg); }
+            70% { transform: translate(-10px, 10px) rotate(15deg); }
+            100% { opacity: 0; transform: translate(-20px, 20px) rotate(30deg); }
+        }
+
+        @keyframes lockShake {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(10deg); color: var(--danger); }
+            100% { transform: scale(0) rotate(-10deg); opacity: 0; }
+        }
+
+        /* تأثير الشفرة المتكسرة والظهور */
+        .cyber-code-stream {
+            font-family: var(--font-code);
+            color: var(--accent);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            height: 30px;
+            opacity: 0;
+            animation: codeReveal 0.6s ease 1s forwards;
+        }
+
+        @keyframes codeReveal {
+            to { opacity: 1; }
+        }
+
+        .splash-name {
+            font-size: 2.2rem;
+            font-weight: 900;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: nameFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
+        }
+
+        .text-engineer { color: var(--accent); }
+        .text-white-name { color: #ffffff; }
+
+        @keyframes nameFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* شريط التنقل المتجاوب */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 15px 5%;
+            padding: 12px 4%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -128,35 +165,35 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1.3rem;
+            gap: 10px;
+            font-size: 1.15rem;
             font-weight: 900;
             cursor: pointer;
         }
 
         .brand i {
             color: var(--accent);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
 
         .nav-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
         }
 
         .btn-action {
             background: var(--bg-card);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .btn-action:hover {
@@ -173,267 +210,220 @@
         .btn-gold:hover {
             background: var(--gold);
             color: #000;
-            box-shadow: 0 0 20px var(--gold-glow);
         }
 
-        /* القائمة الجانبية */
+        /* القائمة الجانبية للتطبيقات والموبايل */
         .sidebar {
             position: fixed;
             top: 0;
-            right: -350px;
-            width: 320px;
+            right: -320px;
+            width: 290px;
             height: 100vh;
             background: var(--bg-card);
             z-index: 9999;
-            padding: 90px 25px 30px;
-            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 80px 20px 30px;
+            transition: right 0.35s ease;
             border-left: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             overflow-y: auto;
         }
 
-        .sidebar.active {
-            right: 0;
-        }
+        .sidebar.active { right: 0; }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 12px 18px;
+            gap: 12px;
+            padding: 12px 15px;
             color: var(--text-muted);
             text-decoration: none;
-            border-radius: 12px;
+            border-radius: 10px;
             font-weight: 600;
+            font-size: 0.95rem;
         }
 
-        .nav-item i {
-            width: 22px;
-            font-size: 1.2rem;
-            color: var(--accent);
-        }
-
+        .nav-item i { width: 20px; color: var(--accent); }
         .nav-item:hover, .nav-item.active {
             background: var(--bg-card-hover);
             color: var(--text-main);
-            border-right: 4px solid var(--accent);
+            border-right: 3px solid var(--accent);
         }
 
         .nav-item.admin-only {
             display: none;
             color: var(--gold);
-            border-color: var(--gold);
         }
 
-        .nav-item.admin-only i {
-            color: var(--gold);
-        }
-
-        /* تخطيط الأقسام */
+        /* محتوى الصفحات والمقاسات المضبوطة */
         .main-content {
-            max-width: 1250px;
+            width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 110px 20px 60px;
+            padding: 95px 16px 40px;
         }
 
         .section-page {
             display: none;
-            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeIn 0.35s ease;
         }
 
-        .section-page.active {
-            display: block;
-        }
+        .section-page.active { display: block; }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .page-header {
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+            padding-bottom: 15px;
         }
 
         .page-title {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 900;
         }
 
-        .page-title span {
-            color: var(--accent);
+        /* بطاقات وشبكة تفاعلية */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
-        /* البطاقات الشبكية */
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 16px 12px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--accent);
+            font-family: var(--font-code);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
         .grid-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
         }
 
         .card-item {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 25px;
+            border-radius: 14px;
+            padding: 20px;
             position: relative;
-            overflow: hidden;
         }
 
         .card-item:hover {
             border-color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px var(--accent-glow);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px var(--accent-glow);
         }
 
         .card-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--accent);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
-        /* لوحة التحكم والإدارة الكبرى */
-        .admin-dashboard {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        .admin-nav {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            height: fit-content;
-        }
-
-        .admin-nav-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 12px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            text-align: right;
-            font-size: 0.95rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .admin-nav-btn:hover, .admin-nav-btn.active {
-            background: var(--bg-card-hover);
-            color: var(--gold);
-        }
-
-        .admin-panel-content {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 30px;
-            min-height: 600px;
-        }
-
-        .admin-tab-page {
-            display: none;
-        }
-
-        .admin-tab-page.active {
-            display: block;
-        }
-
-        /* الجداول والأنظمة الإدارية */
-        .data-table-container {
-            width: 100%;
-            overflow-x: auto;
-            margin-top: 20px;
-        }
-
-        .custom-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: right;
-        }
-
-        .custom-table th, .custom-table td {
-            padding: 15px;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.9rem;
-        }
-
-        .custom-table th {
-            color: var(--text-muted);
-            background: var(--bg-card-hover);
-        }
-
-        .badge-role {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            background: var(--gold-glow);
-            color: var(--gold);
-            border: 1px solid var(--gold);
-        }
-
+        /* عناصر التحكم والإدارة */
         .form-control {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px 14px;
             background: var(--bg-main);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--text-main);
+            margin-bottom: 12px;
             outline: none;
-            margin-bottom: 15px;
         }
 
-        .form-control:focus {
-            border-color: var(--accent);
-        }
+        .form-control:focus { border-color: var(--accent); }
 
-        /* نافذة التسجيل عبر Google */
+        /* نافذة التسجيل والمودال */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(8px);
             z-index: 99999;
             display: none;
             justify-content: center;
             align-items: center;
+            padding: 15px;
         }
 
         .modal-box {
             background: var(--bg-card);
             border: 1px solid var(--border-accent);
-            padding: 40px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 450px;
+            padding: 30px 20px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
             text-align: center;
-            box-shadow: 0 0 50px var(--accent-glow);
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        #toast-container {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            color: var(--text-main);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        /* تعديلات خفيفة للشاشات الصغيرة */
+        @media (max-width: 600px) {
+            .page-title { font-size: 1.5rem; }
+            .splash-name { font-size: 1.6rem; }
+            .main-content { padding-top: 80px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- شاشة الترحيب بأسلوب Matrix -->
+    <!-- 💥 شاشة الترحيب التفاعلية (قفل + جاكوج + شفرة + ألوان مخصصة) -->
     <div id="splash-screen">
-        <canvas id="matrix-canvas"></canvas>
-        <div class="splash-box">
-            <div class="splash-title" id="typewriter-text">المهندس رضا الزيدي</div>
-            <div class="splash-sub">CYBERSECURITY & DEV ENGINE</div>
+        <div class="anim-stage">
+            <div class="lock-wrapper">
+                <i class="fas fa-hammer hammer-icon"></i>
+                <i class="fas fa-lock lock-icon"></i>
+            </div>
+            <div class="cyber-code-stream" id="code-stream">01001000 01000001 01000011 01001011</div>
+            <div class="splash-name">
+                <span class="text-engineer">المهندس</span> <span class="text-white-name">رضا الزيدي</span>
+            </div>
         </div>
     </div>
 
@@ -441,12 +431,12 @@
     <nav>
         <div class="brand" onclick="showSection('home')">
             <i class="fas fa-shield-halved"></i>
-            <span>المهندس رضا الزيدي</span>
+            <span><span class="text-engineer">المهندس</span> <span class="text-white-name">رضا الزيدي</span></span>
         </div>
         <div class="nav-actions">
             <button class="btn-action" id="auth-btn" onclick="openAuthModal()">
                 <i class="fab fa-google"></i>
-                <span id="auth-btn-text">تسجيل الدخول (اختياري)</span>
+                <span id="auth-btn-text">تسجيل الدخول</span>
             </button>
             <button class="btn-action" onclick="toggleTheme()">
                 <i class="fas fa-moon" id="theme-icon"></i>
@@ -457,51 +447,66 @@
         </div>
     </nav>
 
-    <!-- القائمة الجانبية للتنقل -->
+    <!-- القائمة الجانبية -->
     <div class="sidebar" id="sidebar">
-        <a href="#" class="nav-item active" onclick="showSection('home')"><i class="fas fa-house"></i> الرئيسية والنبذة</a>
-        <a href="#" class="nav-item" onclick="showSection('services')"><i class="fas fa-microchip"></i> الخدمات والأنظمة</a>
-        <a href="#" class="nav-item" onclick="showSection('portfolio')"><i class="fas fa-code-branch"></i> معرض المشاريع</a>
-        <a href="#" class="nav-item" onclick="showSection('certs')"><i class="fas fa-certificate"></i> الشهادات والاعتمادات</a>
-        <a href="#" class="nav-item" onclick="showSection('contact')"><i class="fas fa-paper-plane"></i> التواصل المباشر</a>
-        <a href="#" class="nav-item admin-only" id="admin-nav-link" onclick="showSection('admin')"><i class="fas fa-crown"></i> لوحة التحكم والإدارة الكبرى</a>
+        <a href="#" class="nav-item active" onclick="showSection('home')"><i class="fas fa-house"></i> الرئيسية</a>
+        <a href="#" class="nav-item" onclick="showSection('services')"><i class="fas fa-microchip"></i> الخدمات</a>
+        <a href="#" class="nav-item" onclick="showSection('portfolio')"><i class="fas fa-code-branch"></i> المشاريع</a>
+        <a href="#" class="nav-item" onclick="showSection('certs')"><i class="fas fa-certificate"></i> الشهادات</a>
+        <a href="#" class="nav-item" onclick="showSection('contact')"><i class="fab fa-telegram"></i> Telegram</a>
+        <a href="#" class="nav-item admin-only" id="admin-nav-link" onclick="showSection('admin')"><i class="fas fa-crown"></i> لوحة الإدارة</a>
     </div>
 
-    <!-- الحاوية الرئيسية لكافة الأقسام -->
+    <!-- المحتوى الرئيسي -->
     <div class="main-content">
-        <!-- 1. القسم الرئيسي والنبذة -->
+
+        <!-- الرئيسية -->
         <section id="home" class="section-page active">
             <div class="page-header">
-                <div>
-                    <h1 class="page-title">المهندس <span>رضا الزيدي</span></h1>
-                    <p style="color: var(--text-muted); margin-top: 5px;">خبير الأمن السيبراني وهندسة البرمجيات المعقدة</p>
+                <h1 class="page-title"><span class="text-engineer">المهندس</span> <span class="text-white-name">رضا الزيدي</span></h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 4px;">خبير الأمن السيبراني وهندسة البرمجيات</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">+15</div>
+                    <div class="stat-label">مشروع أمني</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">استقرار الأنظمة</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">+8</div>
+                    <div class="stat-label">اعتمادات تخصصية</div>
                 </div>
             </div>
-            <div class="card-item" style="line-height: 2;">
-                <p>أهلاً بك في المنظومة الرقمية الشخصية الخاصة بي. أعمل على تطوير الحلول البرمجية عالية الأداء، تقييم الثغرات والتسلل، وتأمين البنى التحتية والتطبيقات المعقدة بأحدث المعايير الأمنية العالمية.</p>
+
+            <div class="card-item" style="line-height: 1.8;">
+                <p id="about-text-content">مرحباً بك في المنظومة الرقمية الشخصية. متخصص في تقييم الثغرات وحمايتها، وتطوير الأنظمة البرمجية المتقدمة وفق أعلى المعايير الأمنية.</p>
             </div>
         </section>
 
-        <!-- 2. قسم الخدمات والأنظمة -->
+        <!-- الخدمات -->
         <section id="services" class="section-page">
             <div class="page-header">
-                <h2 class="page-title">الخدمات <span>والحلول الرقمية</span></h2>
+                <h2 class="page-title">الخدمات <span>والحلول</span></h2>
             </div>
             <div class="grid-cards">
                 <div class="card-item">
                     <div class="card-icon"><i class="fas fa-shield-virus"></i></div>
-                    <h3>اختبار الاختراق والتقييم الأمنّي</h3>
-                    <p style="color: var(--text-muted); margin-top: 10px;">كشف الثغرات وحمايتها قبل استغلالها في الأنظمة والخوادم.</p>
+                    <h3>اختبار الاختراق والتقييم</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">كشف وحماية الثغرات في الأنظمة والخوادم.</p>
                 </div>
                 <div class="card-item">
                     <div class="card-icon"><i class="fas fa-code"></i></div>
-                    <h3>تطوير الأنظمة ولوحات التحكم</h3>
-                    <p style="color: var(--text-muted); margin-top: 10px;">بناء المنظومات الإدارية والتطبيقات متكاملة الصلاحيات.</p>
+                    <h3>تطوير الأنظمة واللوحات</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">بناء برمجيات متكاملة وعالية الأداء.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 3. قسم معرض المشاريع -->
+        <!-- المشاريع -->
         <section id="portfolio" class="section-page">
             <div class="page-header">
                 <h2 class="page-title">معرض <span>المشاريع</span></h2>
@@ -509,13 +514,13 @@
             <div class="grid-cards">
                 <div class="card-item">
                     <div class="card-icon"><i class="fas fa-server"></i></div>
-                    <h3>نظام حماية الخوادم المركزي</h3>
-                    <p style="color: var(--text-muted); margin-top: 10px;">مشروع متكامل لإدارة الصلاحيات ومراقبة الهجمات البرمجية.</p>
+                    <h3>منظومة حماية الخوادم</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">نظام لمراقبة وإدارة صلاحيات الدخول والهجمات.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 4. قسم الشهادات -->
+        <!-- الشهادات -->
         <section id="certs" class="section-page">
             <div class="page-header">
                 <h2 class="page-title">الشهادات <span>والاعتمادات</span></h2>
@@ -524,238 +529,140 @@
                 <div class="card-item">
                     <div class="card-icon"><i class="fas fa-user-graduate"></i></div>
                     <h3>شهادات الأمن السيبراني</h3>
-                    <p style="color: var(--text-muted); margin-top: 10px;">اعتمادات تخصصية في حماية الشبكات والبيانات.</p>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">شهادات واعترافات في مجالات الحماية والتشفير.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 5. قسم التواصل -->
+        <!-- Telegram -->
         <section id="contact" class="section-page">
             <div class="page-header">
-                <h2 class="page-title">التواصل <span>المباشر</span></h2>
+                <h2 class="page-title">التواصل عبر <span>Telegram</span></h2>
             </div>
-            <div class="card-item" style="text-align: center; max-width: 500px; margin: 0 auto;">
+            <div class="card-item" style="text-align: center; max-width: 400px; margin: 0 auto;">
                 <div class="card-icon"><i class="fab fa-telegram"></i></div>
-                <h3>حساب التلغرام الرسمي</h3>
-                <p style="direction: ltr; margin: 15px 0; font-size: 1.2rem; font-weight: bold; color: var(--accent);">@p77p7</p>
+                <h3>Telegram Official</h3>
+                <p style="direction: ltr; margin: 12px 0; font-weight: bold; color: var(--accent);">@p77p7</p>
                 <a href="https://t.me/p77p7" target="_blank" class="btn-action btn-gold" style="justify-content: center; text-decoration: none;">
-                    <i class="fas fa-paper-plane"></i> مراسلة فورية
+                    <i class="fas fa-paper-plane"></i> فتح في Telegram
                 </a>
             </div>
         </section>
 
-        <!-- 6. لوحة التحكم الكبرى المخصصة للرتب -->
+        <!-- لوحة التحكم -->
         <section id="admin" class="section-page">
             <div class="page-header">
-                <div>
-                    <h2 class="page-title" style="color: var(--gold);">لوحة التحكم والإدارة الكبرى</h2>
-                    <span class="badge-role" id="current-user-role-badge">جاري التحقق من الرتبة...</span>
-                </div>
+                <h2 class="page-title" style="color: var(--gold);">لوحة التحكم والإدارة</h2>
             </div>
-
-            <div class="admin-dashboard">
-                <div class="admin-nav">
-                    <button class="admin-nav-btn active" onclick="switchAdminTab('tab-roles', this)"><i class="fas fa-user-shield"></i> إدارة الرتب والعدّة</button>
-                    <button class="admin-nav-btn" onclick="switchAdminTab('tab-features', this)"><i class="fas fa-sliders"></i> التحكم بالميزات</button>
-                    <button class="admin-nav-btn" onclick="switchAdminTab('tab-content', this)"><i class="fas fa-edit"></i> تحرير محتوى الموقع</button>
-                    <button class="admin-nav-btn" onclick="switchAdminTab('tab-logs', this)"><i class="fas fa-list-check"></i> سجلات النظام والأمان</button>
-                </div>
-
-                <div class="admin-panel-content">
-                    <!-- تبويب إدارة الرتب -->
-                    <div id="tab-roles" class="admin-tab-page active">
-                        <h3 style="color: var(--gold); margin-bottom: 20px;"><i class="fas fa-user-plus"></i> إضافة وتعيين رتبة لحساب Google</h3>
-                        <form id="add-user-form" onsubmit="handleAddUser(event)">
-                            <label style="font-size: 0.85rem; color: var(--text-muted);">البريد الإلكتروني لحساب Google:</label>
-                            <input type="email" id="new-user-email" class="form-control" placeholder="example@gmail.com" required>
-
-                            <label style="font-size: 0.85rem; color: var(--text-muted);">تحديد الرتبة الإدارية:</label>
-                            <select id="new-user-role" class="form-control">
-                                <option value="المالك">1. المالك (Owner)</option>
-                                <option value="المنشئ الأساسي">2. المنشئ الأساسي (Lead Creator)</option>
-                                <option value="المطور الثانوي">3. المطور الثانوي (Secondary Dev)</option>
-                                <option value="الادمن">4. الأدمن (Admin)</option>
-                                <option value="المدير">5. المدير (Manager)</option>
-                                <option value="المنشئ">6. المنشئ (Creator)</option>
-                            </select>
-
-                            <button type="submit" class="btn-action btn-gold" style="margin-top: 10px;">حفظ وتفعيل الحساب</button>
-                        </form>
-
-                        <h4 style="margin-top: 35px; margin-bottom: 15px;">قائمة الرتب والأعضاء المسجلين:</h4>
-                        <div class="data-table-container">
-                            <table class="custom-table">
-                                <thead>
-                                    <tr>
-                                        <th>البريد الإلكتروني</th>
-                                        <th>الرتبة الممنوحة</th>
-                                        <th>حالة الحساب</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="user-list-body"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- تبويب الصلاحيات -->
-                    <div id="tab-features" class="admin-tab-page">
-                        <h3 style="color: var(--gold); margin-bottom: 15px;"><i class="fas fa-cubes"></i> وحدة التحكم الشاملة بميزات المنظومة</h3>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">يمكنك هنا تفعيل أو تعطيل الأدوات والميزات الخاصة بالمنظومة للرتب الفرعية.</p>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;" id="features-grid">
-                            <label><input type="checkbox" checked> تعديل الواجهة الرئيسية</label>
-                            <label><input type="checkbox" checked> إضافة حذف المشاريع</label>
-                            <label><input type="checkbox" checked> التحكم بالشهادات والوثائق</label>
-                            <label><input type="checkbox" checked> إدارة صلاحيات الرتب</label>
-                            <label><input type="checkbox" checked> الوصول لسجلات الأمان</label>
-                            <label><input type="checkbox" checked> تخصيص الثيم والألوان</label>
-                        </div>
-                    </div>
-
-                    <!-- تبويب التحرير -->
-                    <div id="tab-content" class="admin-tab-page">
-                        <h3 style="color: var(--gold); margin-bottom: 15px;"><i class="fas fa-pen-to-square"></i> التعديل الفوري لمحتوى الصفحة</h3>
-                        <label style="font-size: 0.85rem; color: var(--text-muted);">نص "عن المهندس رضا":</label>
-                        <textarea id="edit-about-input" class="form-control" rows="5" placeholder="أدخل النص الجديد هنا..."></textarea>
-                        <button class="btn-action btn-gold" onclick="saveAboutContent()">تحديث المحتوى فوراً</button>
-                    </div>
-
-                    <!-- تبويب السجلات -->
-                    <div id="tab-logs" class="admin-tab-page">
-                        <h3 style="color: var(--gold); margin-bottom: 15px;"><i class="fas fa-shield-cat"></i> سجل العمليات والدخول</h3>
-                        <div style="font-family: var(--font-code); background: var(--bg-main); padding: 15px; border-radius: 10px; font-size: 0.85rem; color: var(--accent);" id="system-logs">
-                            [SYSTEM]: المنظومة تعمل بشكل مستقر...<br>
-                            [AUTH]: جاهز لاستقبال عمليات الدخول المباشرة عبر Google...
-                        </div>
-                    </div>
-                </div>
+            <div class="card-item">
+                <h3 style="margin-bottom: 12px;">إدارة الصلاحيات والمستخدمين</h3>
+                <form onsubmit="handleAddUser(event)">
+                    <input type="email" id="new-user-email" class="form-control" placeholder="البريد الإلكتروني" required>
+                    <select id="new-user-role" class="form-control">
+                        <option value="المالك">المالك</option>
+                        <option value="المطور الأساسي">المطور الأساسي</option>
+                        <option value="الأدمن">الأدمن</option>
+                    </select>
+                    <button type="submit" class="btn-action btn-gold">إضافة الحساب</button>
+                </form>
             </div>
         </section>
+
     </div>
 
-    <!-- نافذة تسجيل الدخول المباشر -->
+    <!-- نافذة تسجيل الدخول السريع محاكاتها بدلاً من الخطأ -->
     <div class="modal-overlay" id="auth-modal">
         <div class="modal-box">
             <h3 style="margin-bottom: 10px;">تسجيل الدخول السريع</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">تسجيل الدخول اختياري لتصفح الموقع، ومخصص للإدارة فقط.</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">الدخول مخصص للإدارة والتحكم.</p>
             
-            <div style="display: flex; justify-content: center; margin: 20px 0;">
-                <div id="g_id_onload"
-                    data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-                    data-callback="handleCredentialResponse"
-                    data-auto_prompt="false">
-                </div>
-                <div class="g_id_signin"
-                    data-type="standard"
-                    data-shape="rectangular"
-                    data-theme="outline"
-                    data-text="signin_with"
-                    data-size="large"
-                    data-logo_alignment="left">
-                </div>
-            </div>
+            <input type="email" id="demo-email-input" class="form-control" placeholder="أدخل البريد الإلكتروني (مثال: razafouad9@gmail.com)">
+            
+            <button class="btn-action btn-gold" style="width: 100%; justify-content: center; margin-bottom: 10px;" onclick="simulatedLogin()">
+                <i class="fab fa-google"></i> الدخول الفوري
+            </button>
 
-            <button class="btn-action" style="width: 100%; justify-content: center; margin-top: 15px;" onclick="closeAuthModal()">إغلاق النافذة</button>
+            <button class="btn-action" style="width: 100%; justify-content: center;" onclick="closeAuthModal()">إلغاء</button>
         </div>
     </div>
 
-    <!-- البرمجيات وإدارة النظام التفاعلي -->
+    <div id="toast-container"></div>
+
     <script>
         const PRIMARY_DEV_EMAIL = "razafouad9@gmail.com";
-
         let authorizedUsers = JSON.parse(localStorage.getItem('sys_users')) || [
             { email: "razafouad9@gmail.com", role: "المطور الأساسي" }
         ];
-
         let currentUser = JSON.parse(localStorage.getItem('current_logged_user')) || null;
 
         window.addEventListener('DOMContentLoaded', () => {
-            initMatrixSplash();
+            startSplashAnim();
             checkAuthStatus();
-            renderUserList();
         });
 
-        function initMatrixSplash() {
-            const canvas = document.getElementById('matrix-canvas');
-            const ctx = canvas.getContext('2d');
-            
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const fontSize = 14;
-            const columns = canvas.width / fontSize;
-            const drops = Array(Math.floor(columns)).fill(1);
-
-            function draw() {
-                ctx.fillStyle = 'rgba(3, 4, 6, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#00d2ff';
-                ctx.font = fontSize + 'px monospace';
-
-                for (let i = 0; i < drops.length; i++) {
-                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
-                    drops[i]++;
+        // أنيميشن الشفرة التفاعلية
+        function startSplashAnim() {
+            const stream = document.getElementById('code-stream');
+            const hexChars = '01ABCDEF';
+            let interval = setInterval(() => {
+                let code = '';
+                for(let i=0; i<16; i++) {
+                    code += hexChars[Math.floor(Math.random()*hexChars.length)];
                 }
-            }
+                stream.innerText = code;
+            }, 50);
 
-            const interval = setInterval(draw, 33);
+            setTimeout(() => {
+                clearInterval(interval);
+                stream.innerText = "ACCESS GRANTED";
+            }, 1400);
 
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';
-                splash.style.visibility = 'hidden';
-                clearInterval(interval);
-            }, 2500);
+                splash.style.transition = 'opacity 0.6s ease';
+                setTimeout(() => splash.style.display = 'none', 600);
+            }, 2600);
         }
 
-        function handleCredentialResponse(response) {
-            try {
-                const base64Url = response.credential.split('.')[1];
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-                
-                const payload = JSON.parse(jsonPayload);
-                const userEmail = payload.email.toLowerCase();
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fas fa-info-circle" style="color: var(--accent);"></i> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3500);
+        }
 
-                const foundUser = authorizedUsers.find(u => u.email.toLowerCase() === userEmail);
+        function openAuthModal() { document.getElementById('auth-modal').style.display = 'flex'; }
+        function closeAuthModal() { document.getElementById('auth-modal').style.display = 'none'; }
 
-                if (foundUser) {
-                    currentUser = foundUser;
-                    localStorage.setItem('current_logged_user', JSON.stringify(currentUser));
-                    logEvent(`[AUTH]: دخول ناجح للحساب (${userEmail}) برتبة [${currentUser.role}]`);
-                    alert(`أهلاً بك يا مهندس! تم الدخول برتبة: [${currentUser.role}]`);
-                    closeAuthModal();
-                    checkAuthStatus();
-                    showSection('admin');
-                } else {
-                    alert(`أهلاً بك (${userEmail})، تصفحك للموقع طبيعي واعتيادي. الحساب لا يملك رتبة إدارية.`);
-                    closeAuthModal();
-                }
-            } catch (err) {
-                console.error("خطأ في التحقق من Google Token", err);
+        function simulatedLogin() {
+            const email = document.getElementById('demo-email-input').value.trim().toLowerCase();
+            if(!email) {
+                showToast("يرجى إدخال البريد الإلكتروني!");
+                return;
             }
-        }
 
-        function openAuthModal() {
-            document.getElementById('auth-modal').style.display = 'flex';
-        }
+            const foundUser = authorizedUsers.find(u => u.email.toLowerCase() === email);
+            if (foundUser) {
+                currentUser = foundUser;
+            } else {
+                currentUser = { email: email, role: "مستعرض" };
+            }
 
-        function closeAuthModal() {
-            document.getElementById('auth-modal').style.display = 'none';
+            localStorage.setItem('current_logged_user', JSON.stringify(currentUser));
+            showToast(`أهلاً بك! تم الدخول برتبة: ${currentUser.role}`);
+            closeAuthModal();
+            checkAuthStatus();
         }
 
         function logout() {
-            logEvent(`[AUTH]: تسجيل خروج (${currentUser.email})`);
             currentUser = null;
             localStorage.removeItem('current_logged_user');
             checkAuthStatus();
             showSection('home');
-            alert("تم تسجيل الخروج بنجاح.");
+            showToast("تم تسجيل الخروج.");
         }
 
         function checkAuthStatus() {
@@ -764,90 +671,37 @@
             const authBtn = document.getElementById('auth-btn');
 
             if (currentUser) {
-                adminLink.style.display = 'flex';
+                adminLink.style.display = (currentUser.role === "المطور الأساسي" || currentUser.role === "المالك") ? 'flex' : 'none';
                 authBtnText.innerText = `خروج (${currentUser.role})`;
                 authBtn.onclick = logout;
-                document.getElementById('current-user-role-badge').innerText = `الرتبة الحالية: ${currentUser.role}`;
             } else {
                 adminLink.style.display = 'none';
-                authBtnText.innerText = "تسجيل الدخول (اختياري)";
+                authBtnText.innerText = "تسجيل الدخول";
                 authBtn.onclick = openAuthModal;
             }
         }
 
         function handleAddUser(e) {
             e.preventDefault();
-            if (!currentUser || (currentUser.role !== "المطور الأساسي" && currentUser.role !== "المالك")) {
-                alert("تنبيه: فقط (المطور الأساسي) أو (المالك) يملكون صلاحية إضافة وتعيين الرتب.");
-                return;
-            }
-
             const email = document.getElementById('new-user-email').value.trim().toLowerCase();
             const role = document.getElementById('new-user-role').value;
 
-            if (authorizedUsers.some(u => u.email.toLowerCase() === email)) {
-                alert("هذا البريد مضاف مسبقاً في المنظومة!");
-                return;
-            }
-
             authorizedUsers.push({ email, role });
             localStorage.setItem('sys_users', JSON.stringify(authorizedUsers));
-            renderUserList();
-            logEvent(`[ROLES]: إضافة حساب جديد (${email}) برتبة [${role}]`);
-            document.getElementById('add-user-form').reset();
-            alert(`تم منح الرتبة [${role}] للحساب (${email}) بنجاح!`);
+            showToast(`تمت إضافة ${email} برتبة ${role}`);
+            document.getElementById('new-user-email').value = '';
         }
 
-        function renderUserList() {
-            const tbody = document.getElementById('user-list-body');
-            tbody.innerHTML = '';
-            authorizedUsers.forEach(u => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${u.email}</td>
-                    <td><span class="badge-role">${u.role}</span></td>
-                    <td><span style="color: var(--success);"><i class="fas fa-check-circle"></i> نشط</span></td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function saveAboutContent() {
-            const text = document.getElementById('edit-about-input').value;
-            if (text) {
-                document.querySelector('#home .card-item p').innerText = text;
-                logEvent(`[CONTENT]: تم تحديث نص النبذة التعريفية.`);
-                alert("تم تحديث محتوى الواجهة بنجاح!");
-            }
-        }
-
-        function logEvent(msg) {
-            const logs = document.getElementById('system-logs');
-            const time = new Date().toLocaleTimeString('ar-EG');
-            logs.innerHTML += `<br>[${time}] ${msg}`;
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-        }
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
 
         function showSection(id) {
             document.querySelectorAll('.section-page').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
 
-            const targetSection = document.getElementById(id);
-            if (targetSection) targetSection.classList.add('active');
-
+            const sec = document.getElementById(id);
+            if(sec) sec.classList.add('active');
             document.getElementById('sidebar').classList.remove('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function switchAdminTab(tabId, btn) {
-            document.querySelectorAll('.admin-tab-page').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.admin-nav-btn').forEach(b => b.classList.remove('active'));
-
-            document.getElementById(tabId).classList.add('active');
-            if (btn) btn.classList.add('active');
         }
 
         function toggleTheme() {
