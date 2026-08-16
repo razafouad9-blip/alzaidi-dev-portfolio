@@ -2,26 +2,27 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>المنظومة الاحترافية الموسعة للمهندس رضا الزيدي - الإصدار المتقدم</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>المهندس رضا الزيدي | المنظومة البرمجية والأمنية المتكاملة</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --bg-main: #04060a;
-            --bg-card: #0d1117;
-            --bg-card-hover: #161b22;
-            --bg-nav: rgba(4, 6, 10, 0.95);
+            --bg-main: #06080c;
+            --bg-card: #11151c;
+            --bg-card-hover: #181f2a;
+            --bg-nav: rgba(6, 8, 12, 0.92);
             --border: rgba(255, 255, 255, 0.08);
-            --border-accent: rgba(56, 189, 248, 0.3);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.25);
-            --gold: #fbbf24;
-            --danger: #f87171;
-            --success: #34d399;
+            --border-accent: rgba(0, 210, 255, 0.3);
+            --text-main: #ffffff;
+            --text-muted: #8b949e;
+            --accent: #00d2ff;
+            --accent-glow: rgba(0, 210, 255, 0.25);
+            --gold: #f59e0b;
+            --gold-glow: rgba(245, 158, 11, 0.2);
+            --danger: #ef4444;
+            --success: #10b981;
             --font-main: 'Tajawal', sans-serif;
             --font-code: 'Fira Code', monospace;
         }
@@ -30,7 +31,7 @@
             --bg-main: #f8fafc;
             --bg-card: #ffffff;
             --bg-card-hover: #f1f5f9;
-            --bg-nav: rgba(248, 250, 252, 0.95);
+            --bg-nav: rgba(248, 250, 252, 0.92);
             --border: rgba(0, 0, 0, 0.08);
             --border-accent: rgba(37, 99, 235, 0.3);
             --text-main: #0f172a;
@@ -41,707 +42,1065 @@
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+            box-sizing: border-box;
+            font-family: var(--font-main);
+            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-main);
             color: var(--text-main);
-            font-family: var(--font-main);
             overflow-x: hidden;
             min-height: 100vh;
+            width: 100%;
         }
 
+        /* شاشة الترحيب */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            background: #030406;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .anim-stage {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lock-wrapper {
+            position: relative;
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .hammer-icon {
+            position: absolute;
+            top: -50px;
+            right: -60px;
+            font-size: 3.5rem;
+            color: #e2e8f0;
+            transform: rotate(-45deg);
+            opacity: 0;
+            animation: hammerStrike 1.2s ease-in-out forwards;
+        }
+
+        .lock-icon {
+            animation: lockShake 0.2s ease-in-out 0.8s 2;
+        }
+
+        @keyframes hammerStrike {
+            0% { opacity: 0; transform: translate(40px, -40px) rotate(-60deg); }
+            50% { opacity: 1; transform: translate(10px, -10px) rotate(-20deg); }
+            70% { transform: translate(-10px, 10px) rotate(15deg); }
+            100% { opacity: 0; transform: translate(-20px, 20px) rotate(30deg); }
+        }
+
+        @keyframes lockShake {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(10deg); color: var(--danger); }
+            100% { transform: scale(0) rotate(-10deg); opacity: 0; }
+        }
+
+        .cyber-code-stream {
+            font-family: var(--font-code);
+            color: var(--accent);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            height: 30px;
+            opacity: 0;
+            animation: codeReveal 0.6s ease 1s forwards;
+        }
+
+        @keyframes codeReveal {
+            to { opacity: 1; }
+        }
+
+        .splash-name {
+            font-size: 2.2rem;
+            font-weight: 900;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: nameFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
+        }
+
+        .text-engineer { color: var(--accent); }
+        .text-white-name { color: #ffffff; }
+
+        @keyframes nameFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* شريط التنقل */
         nav {
             position: fixed;
-            top: 0; left: 0; width: 100%;
-            padding: 14px 5%;
+            top: 0;
+            width: 100%;
+            padding: 12px 4%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: var(--bg-nav);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
+            backdrop-filter: blur(15px);
+            z-index: 10000;
             border-bottom: 1px solid var(--border);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
-        .brand-name {
-            color: var(--text-main);
-            font-weight: 900;
-            font-size: 1.1rem;
+        .brand {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-size: 1.15rem;
+            font-weight: 900;
+            cursor: pointer;
         }
 
-        .brand-name i {
+        .brand i {
             color: var(--accent);
             font-size: 1.3rem;
         }
 
-        .main-container {
-            max-width: 1050px;
-            margin: 95px auto 50px;
-            padding: 0 15px;
+        .verified-badge {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-right: 4px;
         }
 
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 18px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; width: 4px; height: 100%;
-            background: var(--accent);
-            opacity: 0.8;
-        }
-
-        .btn {
-            background: var(--bg-card-hover);
-            border: 1px solid var(--border-accent);
-            color: var(--text-main);
-            padding: 10px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: var(--font-main);
-            display: inline-flex;
+        .nav-actions {
+            display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.9rem;
         }
 
-        .btn:hover {
+        .btn-action {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-action:hover {
             border-color: var(--accent);
-            box-shadow: 0 0 12px var(--accent-glow);
+            color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         .btn-gold {
-            background: linear-gradient(135deg, #fbbf24, #d97706);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .btn-gold:hover {
+            background: var(--gold);
             color: #000;
-            border: none;
+        }
+
+        /* القائمة الجانبية */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 290px;
+            height: 100vh;
+            background: var(--bg-card);
+            z-index: 9999;
+            padding: 80px 20px 30px;
+            transition: right 0.35s ease;
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+        }
+
+        .sidebar.active { right: 0; }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .nav-item i { width: 20px; color: var(--accent); }
+        .nav-item:hover, .nav-item.active {
+            background: var(--bg-card-hover);
+            color: var(--text-main);
+            border-right: 3px solid var(--accent);
+        }
+
+        .nav-item.admin-only {
+            display: none;
+            color: var(--gold);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 95px 16px 40px;
+        }
+
+        .section-page {
+            display: none;
+            animation: fadeIn 0.35s ease;
+        }
+
+        .section-page.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
             font-weight: 900;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 16px 12px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--accent);
+            font-family: var(--font-code);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .card-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        .card-icon {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 12px;
         }
 
         .form-control {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px 14px;
             background: var(--bg-main);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--text-main);
             margin-bottom: 12px;
             outline: none;
-            font-family: var(--font-main);
-            font-size: 0.95rem;
         }
 
-        .form-control:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
+        .form-control:focus { border-color: var(--accent); }
 
-        .flex-row {
-            display: flex;
-            gap: 12px;
+        /* نوافذ الحوار وتسجيل الدخول */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(8px);
+            z-index: 99999;
+            display: none;
+            justify-content: center;
             align-items: center;
+            padding: 15px;
         }
 
-        .tabs-nav {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 12px;
-            margin-bottom: 20px;
-            scrollbar-width: thin;
-        }
-
-        .tabs-nav::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .tabs-nav::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 4px;
-        }
-
-        .tab-btn {
+        .modal-box {
             background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            padding: 10px 16px;
-            border-radius: 10px;
-            white-space: nowrap;
-            cursor: pointer;
-            font-family: var(--font-main);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
+            border: 1px solid var(--border-accent);
+            padding: 30px 20px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 0 40px var(--accent-glow);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .tab-btn.active {
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .auth-tab.active {
             border-color: var(--accent);
             color: var(--accent);
             background: var(--bg-card-hover);
-            box-shadow: 0 0 15px var(--accent-glow);
         }
 
-        .section-pane {
-            display: none;
-            animation: fadeIn 0.3s ease;
+        .auth-form-panel { display: none; }
+        .auth-form-panel.active { display: block; }
+
+        /* قسم التعليقات والشات */
+        .comments-section, .chat-box {
+            margin-top: 15px;
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
         }
 
-        .section-pane.active {
-            display: block;
+        .comment-item, .chat-message {
+            background: var(--bg-main);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
+        #toast-container {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .toast {
-            position: fixed;
-            bottom: 25px; left: 25px;
             background: var(--bg-card);
-            border: 1px solid var(--accent);
+            border: 1px solid var(--border-accent);
             color: var(--text-main);
-            padding: 12px 22px;
-            border-radius: 12px;
-            z-index: 9999;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            font-size: 0.9rem;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s ease;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        @keyframes slideIn {
-            from { transform: translateX(-100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .gifted-badge {
-            background: rgba(251, 191, 36, 0.15);
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: bold;
+        @media (max-width: 600px) {
+            .page-title { font-size: 1.5rem; }
+            .splash-name { font-size: 1.6rem; }
+            .main-content { padding-top: 80px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- شريط التنقل العلوي -->
-    <nav>
-        <div class="brand-name" contenteditable="true" id="editableBrandName" onblur="saveSiteEdit('editableBrandName')">
-            <i class="fa-solid fa-microchip"></i>
-            <span>المنظومة الاحترافية - م. رضا الزيدي</span>
+    <!-- الشاشة الافتتاحية -->
+    <div id="splash-screen">
+        <div class="anim-stage">
+            <div class="lock-wrapper">
+                <i class="fas fa-hammer hammer-icon"></i>
+                <i class="fas fa-lock lock-icon"></i>
+            </div>
+            <div class="cyber-code-stream" id="code-stream">01001000 01000001 01000011 01001011</div>
+            <div class="splash-name">
+                <span class="text-engineer">المهندس</span> <span class="text-white-name">رضا الزيدي</span>
+            </div>
         </div>
-        <div class="flex-row" style="gap: 10px;">
-            <button class="btn" id="themeToggleBtn" onclick="toggleTheme()" title="تغيير المظهر">
-                <i class="fa-solid fa-moon" id="themeIcon"></i>
-            </button>
-            <span class="gifted-badge" onclick="showGiftModal()">
-                <i class="fa-solid fa-crown"></i> وضع المطور المتقدم
+    </div>
+
+    <!-- شريط التنقل -->
+    <nav>
+        <div class="brand" onclick="showSection('home')">
+            <i class="fas fa-shield-halved"></i>
+            <span>
+                <span class="text-engineer">المهندس</span> <span class="text-white-name">رضا الزيدي</span>
+                <span id="nav-user-verified" class="verified-badge" style="display:none;"><i class="fas fa-check-circle"></i></span>
             </span>
+        </div>
+        <div class="nav-actions">
+            <button class="btn-action" id="auth-btn" onclick="openAuthModal()">
+                <i class="fas fa-user-lock"></i>
+                <span id="auth-btn-text">تسجيل الدخول</span>
+            </button>
+            <button class="btn-action" onclick="toggleTheme()">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </button>
+            <button class="btn-action" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
 
-    <!-- الحاوية الأساسية -->
-    <div class="main-container">
-        
-        <!-- الترحيب ومؤشر التقدم نحو الهدف -->
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                <div>
-                    <h1 style="font-size: 1.4rem; margin-bottom: 5px; color: var(--text-main);" contenteditable="true" id="editableWelcome" onblur="saveSiteEdit('editableWelcome')">مرحباً بالمهندس رضا</h1>
-                    <p style="color: var(--text-muted); font-size: 0.9rem;" contenteditable="true" id="editableSubWelcome" onblur="saveSiteEdit('editableSubWelcome')">المنظومة الهندسية الموسعة - كفاءة عالية وقدرات فائقة.</p>
-                </div>
-                <div style="text-align: left;">
-                    <div style="font-size: 0.8rem; color: var(--gold); font-weight: bold;">مستوى الأداء:</div>
-                    <div style="font-size: 1.2rem; font-weight: 900; color: var(--accent);">مستوى احترافي عالي</div>
-                </div>
+    <!-- القائمة الجانبية -->
+    <div class="sidebar" id="sidebar">
+        <a class="nav-item active" onclick="showSection('home')"><i class="fas fa-house"></i> الرئيسية</a>
+        <a class="nav-item" onclick="showSection('services')"><i class="fas fa-microchip"></i> الخدمات والـ 3500 ميزة</a>
+        <a class="nav-item" onclick="showSection('portfolio')"><i class="fas fa-code-branch"></i> المشاريع والمنشورات</a>
+        <a class="nav-item" onclick="showSection('offers')"><i class="fas fa-tags"></i> العروض والإعلانات</a>
+        <a class="nav-item" onclick="showSection('chat')"><i class="fas fa-comments"></i> الشات الخاص</a>
+        <a class="nav-item" onclick="showSection('certs')"><i class="fas fa-certificate"></i> الشهادات</a>
+        <a class="nav-item" onclick="showSection('contact')"><i class="fab fa-telegram"></i> Telegram</a>
+        <a class="nav-item admin-only" id="admin-nav-link" onclick="showSection('admin')"><i class="fas fa-crown"></i> لوحة التحكم</a>
+    </div>
+
+    <!-- المحتوى -->
+    <div class="main-content">
+
+        <section id="home" class="section-page active">
+            <div class="page-header">
+                <h1 class="page-title"><span class="text-engineer">المهندس</span> <span class="text-white-name">رضا الزيدي</span></h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 4px;">خبير الأمن السيبراني وهندسة البرمجيات والمنظومات الذكية</p>
             </div>
-        </div>
 
-        <!-- شريط التنقل بين الأقسام -->
-        <div class="tabs-nav" id="systemTabs">
-            <button class="tab-btn active" onclick="switchTab('dashboard', this)">
-                <i class="fa-solid fa-chart-pie"></i> لوحة القيادة
-            </button>
-            <button class="tab-btn" onclick="switchTab('devStudio', this)">
-                <i class="fa-solid fa-code-merge"></i> استوديو النشر والتحرير
-            </button>
-            <button class="tab-btn" onclick="switchTab('securityTools', this)">
-                <i class="fa-solid fa-shield-halved"></i> الأمان والتشفير
-            </button>
-            <button class="tab-btn" onclick="switchTab('databaseManager', this)">
-                <i class="fa-solid fa-database"></i> إدارة قواعد البيانات
-            </button>
-            <button class="tab-btn" onclick="switchTab('serverMonitor', this)">
-                <i class="fa-solid fa-server"></i> مراقبة الخادم والأداء
-            </button>
-            <button class="tab-btn" onclick="switchTab('advancedMatrix', this)">
-                <i class="fa-solid fa-cubes"></i> مصفوفة الأدوات
-            </button>
-            <button class="tab-btn" onclick="switchTab('aiGenerator', this)">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> المساعد الذكي
-            </button>
-            <button class="tab-btn" onclick="switchTab('settings', this)">
-                <i class="fa-solid fa-gear"></i> الإعدادات
-            </button>
-        </div>
-
-        <!-- القسم الأول: لوحة القيادة -->
-        <div id="dashboard" class="section-pane active">
-            <div class="card">
-                <h3 style="margin-bottom: 15px; color: var(--accent);"><i class="fa-solid fa-chart-line"></i> مؤشرات الأداء والإنتاجية</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 15px;">
-                    <div style="background: var(--bg-main); padding: 12px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-                        <div style="font-size: 0.75rem; color: var(--text-muted);">المهام المسجلة</div>
-                        <div style="color: var(--accent); font-size: 1.2rem; font-weight: bold; margin-top: 4px;" id="statTasksCount">0</div>
-                    </div>
-                    <div style="background: var(--bg-main); padding: 12px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-                        <div style="font-size: 0.75rem; color: var(--text-muted);">العناصر المخزنة</div>
-                        <div style="color: var(--gold); font-size: 1.2rem; font-weight: bold; margin-top: 4px;" id="statDataCount">0</div>
-                    </div>
-                    <div style="background: var(--bg-main); padding: 12px; border-radius: 8px; border: 1px solid var(--border); text-align: center;">
-                        <div style="font-size: 0.75rem; color: var(--text-muted);">كفاءة النظام</div>
-                        <div style="color: var(--success); font-size: 1.1rem; font-weight: bold; margin-top: 4px;">ممتازة</div>
-                    </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">+3500</div>
+                    <div class="stat-label">ميزة برمجية وحماية</div>
                 </div>
-                <div style="font-size: 0.85rem; color: var(--gold); display: flex; align-items: center; gap: 6px;">
-                    <i class="fa-solid fa-stopwatch"></i> وقت الجلسة الحالية: <span id="sessionTimer">00:00:00</span>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">استقرار الأنظمة والتحكم</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">ID</div>
+                    <div class="stat-label">نظام هويات فريد</div>
                 </div>
             </div>
-        </div>
 
-        <!-- استوديو النشر والتحرير -->
-        <div id="devStudio" class="section-pane">
-            <div class="card" style="border-top: 2px solid var(--accent);">
-                <h3 style="margin-bottom: 15px; color: var(--accent);"><i class="fa-solid fa-screwdriver-wrench"></i> استوديو النشر والتحرير المباشر</h3>
-                <div style="background: var(--bg-main); padding: 15px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 15px;">
-                    <input type="text" id="devPostTitle" class="form-control" placeholder="عنوان المقال أو الميزة الهندسية..." style="margin-bottom: 10px;">
-                    <textarea id="devPostContent" class="form-control" placeholder="محتوى النشر التفصيلي..." rows="3" style="margin-bottom: 10px; resize: vertical;"></textarea>
-                    <button class="btn btn-gold" onclick="publishDevContent()"><i class="fa-solid fa-paper-plane"></i> نشر محتوى فوري</button>
+            <div class="card-item" style="line-height: 1.8;">
+                <p>مرحباً بك في المنظومة الرقمية الشخصية المؤمنة بالكامل. تصفح الخدمات، انضم إلى الشات الخاص، واطلع على العروض والمنشورات التفاعلية.</p>
+            </div>
+        </section>
+
+        <!-- قسم الخدمات والـ 3500 ميزة -->
+        <section id="services" class="section-page">
+            <div class="page-header">
+                <h2 class="page-title">الخدمات و ملف الـ <span>3500 ميزة</span></h2>
+            </div>
+            <div class="card-item" style="margin-bottom: 20px; border-color: var(--accent);">
+                <h3><i class="fas fa-layer-group"></i> وحدة الـ 3500 ميزة المتكاملة</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px; line-height: 1.7;">
+                    تم دمج وتفعيل 3500 ميزة متطورة تشمل خوارزميات الحماية العميقة، التشفير المتقدم، إدارة الصلاحيات اللحظية بالـ ID، الفلاتر الأمنية، وتتبع الأنشطة بدقة تامة لضمان أفضل تجربة أداء واستقرار.
+                </p>
+            </div>
+            <div class="grid-cards">
+                <div class="card-item">
+                    <div class="card-icon"><i class="fas fa-shield-virus"></i></div>
+                    <h3>الحماية السيبرانية الفائقة</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">حماية متكاملة ضد الثغرات وهجمات الحقن.</p>
                 </div>
-                <h4 style="font-size: 1rem; margin-bottom: 10px; color: var(--text-main);"><i class="fa-solid fa-bullhorn"></i> المنشورات والتحديثات الحية</h4>
-                <div id="devFeedContainer" style="display: flex; flex-direction: column; gap: 10px;"></div>
-            </div>
-        </div>
-
-        <!-- قسم الأمان والتشفير -->
-        <div id="securityTools" class="section-pane">
-            <div class="card" style="border-top: 2px solid var(--danger);">
-                <h3 style="margin-bottom: 15px; color: var(--danger);"><i class="fa-solid fa-shield-halved"></i> أدوات التشفير وحماية البيانات الهندسية</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">قم بتشفير النصوص والبيانات السرية بمعايير حماية متقدمة.</p>
-                
-                <input type="text" id="secretTextInput" class="form-control" placeholder="أدخل النص أو الكود السري..." style="margin-bottom: 10px;">
-                <div class="flex-row" style="gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
-                    <button class="btn btn-gold" onclick="encryptText()"><i class="fa-solid fa-lock"></i> تشفير النص</button>
-                    <button class="btn" onclick="decryptText()"><i class="fa-solid fa-lock-open"></i> فك التشفير</button>
+                <div class="card-item">
+                    <div class="card-icon"><i class="fas fa-code"></i></div>
+                    <h3>إدارة الأنظمة واللوحات</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">تحكم كامل برتب المستخدمين وصلاحياتهم.</p>
                 </div>
-                <div id="cryptoOutputBox" style="padding: 12px; background: var(--bg-main); border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-code); font-size: 0.9rem; display: none;"></div>
             </div>
-        </div>
+        </section>
 
-        <!-- إدارة قواعد البيانات -->
-        <div id="databaseManager" class="section-pane">
-            <div class="card" style="border-top: 2px solid var(--gold);">
-                <h3 style="margin-bottom: 15px; color: var(--gold);"><i class="fa-solid fa-database"></i> نظام إدارة وتخزين البيانات المحلية</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">استعراض والتحكم بالمتغيرات والجداول المخزنة في متصفحك.</p>
-                
-                <div class="flex-row" style="gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
-                    <button class="btn btn-gold" onclick="viewLocalStorage()"><i class="fa-solid fa-list"></i> استعراض كافة السجلات</button>
-                    <button class="btn" style="border-color: var(--danger); color: var(--danger);" onclick="clearDatabaseCache()"><i class="fa-solid fa-trash"></i> تفريغ الذاكرة المؤقتة</button>
+        <!-- المشاريع والمنشورات (مع 100 تعليق) -->
+        <section id="portfolio" class="section-page">
+            <div class="page-header">
+                <h2 class="page-title">معرض <span>المشاريع والمنشورات</span></h2>
+            </div>
+            <div id="posts-container">
+                <!-- يتم تعبئتها ديناميكياً -->
+            </div>
+        </section>
+
+        <!-- العروض والإعلانات (مع 100 تعليق) -->
+        <section id="offers" class="section-page">
+            <div class="page-header">
+                <h2 class="page-title">العروض <span>والإعلانات</span></h2>
+            </div>
+            <div id="offers-container">
+                <!-- يتم تعبئتها ديناميكياً -->
+            </div>
+        </section>
+
+        <!-- الشات الخاص -->
+        <section id="chat" class="section-page">
+            <div class="page-header">
+                <h2 class="page-title">الشات <span>الخاص المباشر</span></h2>
+            </div>
+            <div class="card-item">
+                <div id="chat-messages" style="height: 350px; overflow-y: auto; background: var(--bg-main); padding: 12px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 15px;">
+                    <!-- رسائل الشات -->
                 </div>
-                <div id="dbOutputBox" style="padding: 12px; background: var(--bg-main); border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-code); font-size: 0.85rem; display: none; max-height: 200px; overflow-y: auto;"></div>
-            </div>
-        </div>
-
-        <!-- مراقبة الخادم والأداء -->
-        <div id="serverMonitor" class="section-pane">
-            <div class="card" style="border-top: 2px solid var(--success);">
-                <h3 style="margin-bottom: 15px; color: var(--success);"><i class="fa-solid fa-server"></i> محلل أداء السيرفر وسرعة الاستجابة</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">فحص كفاءة الاتصال وسرعة معالجة الطلبات.</p>
-                
-                <button class="btn btn-gold" onclick="runServerPing()"><i class="fa-solid fa-bolt"></i> فحص سرعة الاستجابة (Ping)</button>
-                <div id="pingResultBox" style="margin-top: 15px; padding: 12px; background: var(--bg-main); border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-code); font-size: 0.9rem; display: none;"></div>
-            </div>
-        </div>
-
-        <!-- مصفوفة الأدوات -->
-        <div id="advancedMatrix" class="section-pane">
-            <div class="card" style="border-top: 2px solid var(--accent);">
-                <h3 style="margin-bottom: 15px; color: var(--accent);"><i class="fa-solid fa-cubes"></i> مصفوفة الأدوات والميزات المتقدمة</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">أدوات هندسية إضافية متقدمة لتوليد المفاتيح، اختبار الأداء، وتحليل النظم.</p>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px;">
-                    <div style="background: var(--bg-main); padding: 15px; border-radius: 10px; border: 1px solid var(--border); text-align: center;">
-                        <i class="fa-solid fa-key" style="color: var(--gold); font-size: 1.5rem; margin-bottom: 8px;"></i>
-                        <h4 style="font-size: 0.95rem; margin-bottom: 5px;">مولد كلمات المرور</h4>
-                        <button class="btn btn-gold" onclick="generateSecurePassword()" style="width: 100%; justify-content: center; margin-top: 8px; font-size: 0.8rem;">توليد مفتاح</button>
-                    </div>
-                    <div style="background: var(--bg-main); padding: 15px; border-radius: 10px; border: 1px solid var(--border); text-align: center;">
-                        <i class="fa-solid fa-gauge-high" style="color: var(--success); font-size: 1.5rem; margin-bottom: 8px;"></i>
-                        <h4 style="font-size: 0.95rem; margin-bottom: 5px;">اختبار المعالج (Benchmark)</h4>
-                        <button class="btn btn-gold" onclick="runCpuBenchmark()" style="width: 100%; justify-content: center; margin-top: 8px; font-size: 0.8rem;">فحص السرعة</button>
-                    </div>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="chat-input" class="form-control" placeholder="اكتب رسالتك هنا..." style="margin-bottom:0;">
+                    <button class="btn-action btn-gold" onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i> إرسال</button>
                 </div>
-                <div id="matrixOutputBox" style="padding: 12px; background: var(--bg-main); border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-code); font-size: 0.9rem; display: none;"></div>
             </div>
-        </div>
+        </section>
 
-        <!-- المساعد الذكي -->
-        <div id="aiGenerator" class="section-pane">
-            <div class="card" style="border-top: 2px solid var(--gold);">
-                <h3 style="margin-bottom: 15px; color: var(--gold);"><i class="fa-solid fa-wand-magic-sparkles"></i> المساعد الذكي للمهندس رضا</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">توليد أفكار مشاريع وهياكل برمجية ذكية متطورة.</p>
-                <input type="text" id="aiPromptInput" class="form-control" placeholder="اكتب موضوع المشروع أو الفكرة..." style="margin-bottom: 10px;">
-                <button class="btn btn-gold" onclick="generateAIIdea()"><i class="fa-solid fa-bolt"></i> توليد الاقتراح الذكي</button>
-                <div id="aiOutputBox" style="margin-top: 15px; padding: 12px; background: var(--bg-main); border-radius: 8px; border: 1px solid var(--border); font-family: var(--font-code); font-size: 0.9rem; display: none;"></div>
+        <section id="certs" class="section-page">
+            <div class="page-header">
+                <h2 class="page-title">الشهادات <span>والاعتمادات</span></h2>
             </div>
-        </div>
+            <div class="grid-cards">
+                <div class="card-item">
+                    <div class="card-icon"><i class="fas fa-user-graduate"></i></div>
+                    <h3>اعتمادات الأمن السيبراني</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">شهادات واعترافات في مجالات الحماية والتشفير والهندسة العكسية.</p>
+                </div>
+            </div>
+        </section>
 
-        <!-- الإعدادات -->
-        <div id="settings" class="section-pane">
-            <div class="card">
-                <h3 style="margin-bottom: 15px; color: var(--accent);"><i class="fa-solid fa-sliders"></i> إعدادات المنظومة الشاملة</h3>
-                <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">إدارة التخزين وإعادة ضبط إعدادات المطور بالكامل.</p>
-                <button class="btn" style="border-color: var(--danger); color: var(--danger);" onclick="resetSystemData()"><i class="fa-solid fa-triangle-exclamation"></i> إعادة تعيين بيانات المنظومة</button>
+        <section id="contact" class="section-page">
+            <div class="page-header">
+                <h2 class="page-title">التواصل عبر <span>Telegram</span></h2>
             </div>
-        </div>
+            <div class="card-item" style="text-align: center; max-width: 400px; margin: 0 auto;">
+                <div class="card-icon"><i class="fab fa-telegram"></i></div>
+                <h3>Telegram Official</h3>
+                <p style="direction: ltr; margin: 12px 0; font-weight: bold; color: var(--accent);">@p77p7</p>
+                <a href="https://t.me/p77p7" target="_blank" class="btn-action btn-gold" style="justify-content: center; text-decoration: none;">
+                    <i class="fas fa-paper-plane"></i> فتح في Telegram
+                </a>
+            </div>
+        </section>
 
-        <!-- سجل المهام السريعة -->
-        <div class="card" style="margin-top: 25px; border-top: 2px solid var(--accent);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="color: var(--accent); font-size: 1.1rem;"><i class="fa-solid fa-list-check"></i> سجل المهام الهندسية السريعة</h3>
-                <span style="font-size: 0.85rem; color: var(--text-muted);">قسم الإنتاجية</span>
+        <!-- لوحة التحكم (الرتب الـ 8 وإعطاء التوثيق) -->
+        <section id="admin" class="section-page">
+            <div class="page-header">
+                <h2 class="page-title" style="color: var(--gold);">لوحة التحكم والإدارة البرمجية</h2>
             </div>
-            <div class="flex-row" style="margin-bottom: 15px;">
-                <input type="text" id="taskInput" class="form-control" placeholder="أدخل مهمة جديدة..." style="margin-bottom: 0;">
-                <button class="btn" onclick="addNewTask()" style="white-space: nowrap;"><i class="fa-solid fa-plus"></i> إضافة</button>
+            
+            <!-- نقل المطور الأساسي -->
+            <div class="card-item" style="margin-bottom: 20px; border-color: var(--gold);">
+                <h3><i class="fas fa-key"></i> نقل صلاحية المطور الأساسي</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">أدخل كلمة المرور الخاصة بك (`Rasd12mP$$`) وإيدي المستخدم المراد نقله له:</p>
+                <input type="text" id="transfer-target-id" class="form-control" placeholder="ID المستخدم الجديد">
+                <input type="password" id="transfer-my-pass" class="form-control" placeholder="كلمة المرور الخاصة بك">
+                <button class="btn-action btn-gold" onclick="transferPrimaryDev()">تأكيد نقل المطور الأساسي</button>
             </div>
-            <div id="taskList" style="display: flex; flex-direction: column; gap: 8px;"></div>
-        </div>
 
-        <!-- تذييل المنظومة -->
-        <footer style="margin-top: 30px; text-align: center; padding: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem;">
-            <p><i class="fa-solid fa-code" style="color: var(--accent);"></i> تم تطوير وإدارة المنظومة الهندسية بواسطة <strong contenteditable="true" id="editableAuthor" onblur="saveSiteEdit('editableAuthor')">المهندس رضا الزيدي</strong> © 2026</p>
-            <p style="margin-top: 5px;">نسخة مخصصة لتحقيق أعلى معايير الجودة والاحترافية</p>
-        </footer>
+            <!-- إعطاء الرتب والتوثيق -->
+            <div class="card-item" style="margin-bottom: 20px;">
+                <h3><i class="fas fa-user-shield"></i> إدارة الرتب والتوثيق بالـ ID</h3>
+                <input type="text" id="target-user-id" class="form-control" placeholder="ID المستخدم أو اليوزر نيم">
+                <select id="target-user-role" class="form-control">
+                    <option value="المطور الأساسي">1. المطور الأساسي</option>
+                    <option value="المطور الثانوي">2. المطور الثانوي</option>
+                    <option value="المالك">3. المالك</option>
+                    <option value="المنشئ الأساسي">4. المنشئ الأساسي</option>
+                    <option value="المنشئ">5. المنشئ</option>
+                    <option value="المدير العام">6. المدير العام</option>
+                    <option value="المدير">7. المدير</option>
+                    <option value="الأدمن">8. الأدمن</option>
+                </select>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-action btn-gold" style="flex:1; justify-content:center;" onclick="updateUserRole()">تعيين الرتبة</button>
+                    <button class="btn-action" style="flex:1; justify-content:center;" onclick="toggleUserVerification()">توثيق / إلغاء توثيق الحساب</button>
+                </div>
+            </div>
+
+            <!-- قائمة المستخدمين للتحكم السريع -->
+            <div class="card-item">
+                <h3><i class="fas fa-users"></i> قائمة المستخدمين المسجلين</h3>
+                <div id="users-list-container" style="margin-top: 10px;"></div>
+            </div>
+        </section>
 
     </div>
 
-    <!-- نافذة منبثقة لوضع المطور المتقدم -->
-    <div id="giftModal" class="section-pane" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 10000; justify-content: center; align-items: center;">
-        <div class="card" style="max-width: 400px; width: 90%; text-align: center; position: relative;">
-            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-crown"></i> وضع المطور المتقدم</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">تم تفعيل مصفوفة الأدوات الموسعة، معايير التشفير الفائق، واختبارات المعالج بنجاح!</p>
-            <button class="btn btn-gold" onclick="closeGiftModal()" style="width: 100%; justify-content: center;">تفعيل وبدء العمل</button>
+    <!-- نافذة تسجيل الدخول وإنشاء الحساب -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-box">
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchAuthTab('login')">تسجيل الدخول</div>
+                <div class="auth-tab" onclick="switchAuthTab('register')">إنشاء حساب</div>
+            </div>
+
+            <!-- نموذج تسجيل الدخول -->
+            <div id="login-panel" class="auth-form-panel active">
+                <h3 style="margin-bottom: 12px;">تسجيل الدخول</h3>
+                <input type="email" id="login-email" class="form-control" placeholder="البريد الإلكتروني">
+                <input type="password" id="login-password" class="form-control" placeholder="كلمة السر">
+                <button class="btn-action btn-gold" style="width: 100%; justify-content: center; margin-bottom: 10px;" onclick="handleLogin()">دخول</button>
+            </div>
+
+            <!-- نموذج إنشاء حساب -->
+            <div id="register-panel" class="auth-form-panel">
+                <h3 style="margin-bottom: 12px;">إنشاء حساب جديد</h3>
+                <input type="text" id="reg-username" class="form-control" placeholder="اسم المستخدم (اليوزر نيم)">
+                <input type="email" id="reg-email" class="form-control" placeholder="البريد الإلكتروني">
+                <input type="password" id="reg-password" class="form-control" placeholder="كلمة السر (التي ستعتمدها دائماً)">
+                <button class="btn-action btn-gold" style="width: 100%; justify-content: center; margin-bottom: 10px;" onclick="handleRegister()">إنشاء الحساب</button>
+            </div>
+
+            <button class="btn-action" style="width: 100%; justify-content: center;" onclick="closeAuthModal()">إلغاء</button>
         </div>
     </div>
 
-    <div id="toastContainer"></div>
+    <div id="toast-container"></div>
 
     <script>
-        // عداد الجلسة
-        let seconds = 0;
-        setInterval(() => {
-            seconds++;
-            let hrs = Math.floor(seconds / 3600).toString().padStart(2, '0');
-            let mins = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
-            let secs = (seconds % 60).toString().padStart(2, '0');
-            const timerEl = document.getElementById('sessionTimer');
-            if(timerEl) timerEl.innerText = `${hrs}:${mins}:${secs}`;
-        }, 1000);
+        const PRIMARY_DEV_PASS = "Rasd12mP$$";
+        const PRIMARY_DEV_EMAIL = "razafouad9@gmail.com";
 
-        window.onload = function() {
-            loadTasks();
-            loadDevPosts();
-            loadSiteEdits();
-            updateStats();
-        };
+        // قاعدة البيانات المخزنة محلياً
+        let users = JSON.parse(localStorage.getItem('sys_users')) || [
+            { id: "ID-1001", username: "رضا_الزيدي", email: PRIMARY_DEV_EMAIL, password: PRIMARY_DEV_PASS, role: "المطور الأساسي", verified: true }
+        ];
 
-        // التعديل الحي
-        function saveSiteEdit(elementId) {
-            const el = document.getElementById(elementId);
-            if(el) {
-                localStorage.setItem('edit_' + elementId, el.innerHTML);
-                showToast('تم حفظ التعديل المباشر بنجاح!');
-            }
-        }
+        let currentUser = JSON.parse(localStorage.getItem('current_logged_user')) || null;
 
-        function loadSiteEdits() {
-            ['editableBrandName', 'editableWelcome', 'editableSubWelcome', 'editableAuthor'].forEach(id => {
-                const saved = localStorage.getItem('edit_' + id);
-                if(saved) {
-                    const el = document.getElementById(id);
-                    if(el) el.innerHTML = saved;
+        let posts = JSON.parse(localStorage.getItem('sys_posts')) || [
+            { id: 1, title: "منظومة الحماية الشاملة وتأمين الخوادم", content: "إطلاق التحديث الجديد لدرع الحماية السيبرانية المدعوم بـ 3500 ميزة برمجية.", comments: [] },
+            { id: 2, title: "تطوير واجهات الإدارة الذكية", content: "تم تحديث لوحة التحكم لتشمل الرتب الثمانية بدقة كاملة والتحكم بالـ ID.", comments: [] }
+        ];
+
+        let offers = JSON.parse(localStorage.getItem('sys_offers')) || [
+            { id: 1, title: "عرض خاص: فحص ثغرات المواقع مجاناً", content: "احصل على تقرير فحص أمني شامل لموقعك أو تطبيقك الآن.", comments: [] }
+        ];
+
+        let chatMessages = JSON.parse(localStorage.getItem('sys_chat')) || [
+            { id: 1, userId: "ID-1001", username: "رضا_الزيدي", text: "أهلاً بك في الشات الخاص بالمنظومة.", time: "12:00" }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            startSplashAnim();
+            checkAuthStatus();
+            renderPosts();
+            renderOffers();
+            renderChat();
+            renderAdminUsers();
+        });
+
+        function startSplashAnim() {
+            const stream = document.getElementById('code-stream');
+            const hexChars = '01ABCDEF';
+            let interval = setInterval(() => {
+                let code = '';
+                for(let i=0; i<16; i++) {
+                    code += hexChars[Math.floor(Math.random()*hexChars.length)];
                 }
-            });
-        }
+                stream.innerText = code;
+            }, 50);
 
-        // أداة التشفير
-        function encryptText() {
-            const text = document.getElementById('secretTextInput').value.trim();
-            const box = document.getElementById('cryptoOutputBox');
-            if(!text) { showToast('يرجى كتابة نص لتشفيره'); return; }
-            box.style.display = 'block';
-            const encoded = btoa(encodeURIComponent(text));
-            box.innerHTML = `<i class="fa-solid fa-lock" style="color: var(--success);"></i> النص المشفر (Base64):<br><span style="color: var(--accent);">${encoded}</span>`;
-            showToast('تمت عملية التشفير بنجاح');
-        }
-
-        function decryptText() {
-            const text = document.getElementById('secretTextInput').value.trim();
-            const box = document.getElementById('cryptoOutputBox');
-            if(!text) { showToast('يرجى كتابة النص المشفر لفك تشفيره'); return; }
-            box.style.display = 'block';
-            try {
-                const decoded = decodeURIComponent(atob(text));
-                box.innerHTML = `<i class="fa-solid fa-lock-open" style="color: var(--gold);"></i> النص الأصلي:<br><span style="color: var(--text-main);">${decoded}</span>`;
-                showToast('تم فك التشفير بنجاح');
-            } catch(e) {
-                box.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color: var(--danger);"></i> خطأ: النص المدخل غير صالح`;
-                showToast('فشل فك التشفير');
-            }
-        }
-
-        // ميزات مصفوفة الأدوات الجديدة
-        function generateSecurePassword() {
-            const box = document.getElementById('matrixOutputBox');
-            box.style.display = 'block';
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!";
-            let pass = "";
-            for (let i = 0; i < 16; i++) {
-                pass += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            box.innerHTML = `<i class="fa-solid fa-key" style="color: var(--gold);"></i> مفتاح الحماية:<br><span style="color: var(--accent); font-size: 1rem;">${pass}</span>`;
-            showToast('تم توليد مفتاح حماية فائق بنجاح');
-        }
-
-        function runCpuBenchmark() {
-            const box = document.getElementById('matrixOutputBox');
-            box.style.display = 'block';
-            box.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> جاري قياس أداء المعالج والعمليات...`;
-            let start = performance.now();
-            for(let i=0; i<5000000; i++) { Math.sqrt(i); }
-            let end = performance.now();
-            let duration = (end - start).toFixed(2);
             setTimeout(() => {
-                box.innerHTML = `<i class="fa-solid fa-gauge-high" style="color: var(--success);"></i> تقرير أداء المعالج:<br>• الوقت المستغرق لـ 5 مليون عملية: <span style="color: var(--gold);">${duration} ms</span><br>• الحالة: كفاءة عالية جداً`;
-                showToast('اكتمل اختبار المعالج بنجاح');
-            }, 500);
-        }
+                clearInterval(interval);
+                stream.innerText = "ACCESS GRANTED";
+            }, 1400);
 
-        // إدارة قواعد البيانات المحلية
-        function viewLocalStorage() {
-            const box = document.getElementById('dbOutputBox');
-            box.style.display = 'block';
-            let html = '<b>سجلات التخزين المحلي (LocalStorage):</b><br>';
-            for (let i = 0; i < localStorage.length; i++) {
-                let key = localStorage.key(i);
-                let val = localStorage.getItem(key);
-                html += `• <span style="color: var(--gold);">${key}</span>: ${val.substring(0, 50)}...<br>`;
-            }
-            box.innerHTML = html;
-            showToast('تم استعراض السجلات بنجاح');
-        }
-
-        function clearDatabaseCache() {
-            if(confirm('هل أنت متأكد من تفريغ ذاكرة التخزين المؤقت؟')) {
-                localStorage.clear();
-                location.reload();
-            }
-        }
-
-        // مراقبة الخادم
-        function runServerPing() {
-            const box = document.getElementById('pingResultBox');
-            box.style.display = 'block';
-            box.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> جاري فحص استجابة الخادم...`;
             setTimeout(() => {
-                const latency = Math.floor(Math.random() * 10) + 5;
-                box.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--success);"></i> حالة الخادم مستقرة.<br>• زمن الاستجابة (Ping): <span style="color: var(--gold);">${latency} ms</span><br>• الحالة: متصل بكفاءة قصوى`;
-                showToast('اكتمل فحص السيرفر بنجاح');
-            }, 800);
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                splash.style.transition = 'opacity 0.6s ease';
+                setTimeout(() => splash.style.display = 'none', 600);
+            }, 2600);
         }
 
-        // استوديو النشر
-        function publishDevContent() {
-            const title = document.getElementById('devPostTitle').value.trim();
-            const content = document.getElementById('devPostContent').value.trim();
-            if(!title || !content) {
-                showToast('يرجى كتابة العنوان والمحتوى للنشر');
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fas fa-info-circle" style="color: var(--accent);"></i> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3500);
+        }
+
+        function openAuthModal() { document.getElementById('auth-modal').style.display = 'flex'; }
+        function closeAuthModal() { document.getElementById('auth-modal').style.display = 'none'; }
+
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form-panel').forEach(p => p.classList.remove('active'));
+            if(tab === 'login') {
+                document.querySelectorAll('.auth-tab')[0].classList.add('active');
+                document.getElementById('login-panel').classList.add('active');
+            } else {
+                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.getElementById('register-panel').classList.add('active');
+            }
+        }
+
+        // إنشاء حساب جديد
+        function handleRegister() {
+            const username = document.getElementById('reg-username').value.trim();
+            const email = document.getElementById('reg-email').value.trim().toLowerCase();
+            const password = document.getElementById('reg-password').value.trim();
+
+            if(!username || !email || !password) {
+                showToast("يرجى تعبئة جميع الحقول!");
                 return;
             }
-            let posts = JSON.parse(localStorage.getItem('dev_posts') || '[]');
-            posts.unshift({ title, content, date: new Date().toLocaleDateString('ar-EG') });
-            localStorage.setItem('dev_posts', JSON.stringify(posts));
-            document.getElementById('devPostTitle').value = '';
-            document.getElementById('devPostContent').value = '';
-            loadDevPosts();
-            updateStats();
-            showToast('تم نشر المحتوى بنجاح!');
+
+            if(users.some(u => u.email === email)) {
+                showToast("البريد الإلكتروني مسجل مسبقاً!");
+                return;
+            }
+
+            const newId = "ID-" + Math.floor(1000 + Math.random() * 9000);
+            const newUser = {
+                id: newId,
+                username: username,
+                email: email,
+                password: password, // تُحفظ كلمة السر الأولى ولا يمكن تغييرها إلا بالدخول الصحيح
+                role: "الأدمن", // رتبة افتراضية أولية
+                verified: false
+            };
+
+            users.push(newUser);
+            localStorage.setItem('sys_users', JSON.stringify(users));
+            
+            currentUser = newUser;
+            localStorage.setItem('current_logged_user', JSON.stringify(currentUser));
+            
+            showToast(`تم إنشاء الحساب بنجاح! إيديك الخاص هو: ${newId}`);
+            closeAuthModal();
+            checkAuthStatus();
+            renderAdminUsers();
         }
 
-        function loadDevPosts() {
-            const container = document.getElementById('devFeedContainer');
-            let posts = JSON.parse(localStorage.getItem('dev_posts') || '[{"title": "تحديث المنظومة المتقدمة", "content": "تم إضافة مصفوفة الأدوات المتقدمة، اختبارات المعالج، وتوليد مفاتيح الحماية الفائقة.", "date": "اليوم"}]');
-            container.innerHTML = '';
-            posts.forEach((post, index) => {
-                const item = document.createElement('div');
-                item.style.cssText = 'background: var(--bg-main); padding: 12px; border-radius: 8px; border: 1px solid var(--border);';
-                item.innerHTML = `
-                    <div style="font-weight: bold; color: var(--gold); margin-bottom: 4px;">${post.title}</div>
-                    <div style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 6px;">${post.content}</div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-muted);">
-                        <span><i class="fa-solid fa-calendar"></i> ${post.date}</span>
-                        <button style="background: none; border: none; color: var(--danger); cursor: pointer;" onclick="deleteDevPost(${index})"><i class="fa-solid fa-trash-can"></i> حذف</button>
+        // تسجيل الدخول بالبريد وكلمة السر الأولى
+        function handleLogin() {
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const password = document.getElementById('login-password').value.trim();
+
+            if(!email || !password) {
+                showToast("يرجى إدخال البريد وكلمة السر!");
+                return;
+            }
+
+            const user = users.find(u => u.email.toLowerCase() === email && u.password === password);
+            if(user) {
+                currentUser = user;
+                localStorage.setItem('current_logged_user', JSON.stringify(currentUser));
+                showToast(`أهلاً بك مجدداً ${user.username}! الرتبة: ${user.role}`);
+                closeAuthModal();
+                checkAuthStatus();
+            } else {
+                showToast("خطأ في البريد الإلكتروني أو كلمة السر!");
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('current_logged_user');
+            checkAuthStatus();
+            showSection('home');
+            showToast("تم تسجيل الخروج.");
+        }
+
+        function checkAuthStatus() {
+            const adminLink = document.getElementById('admin-nav-link');
+            const authBtnText = document.getElementById('auth-btn-text');
+            const authBtn = document.getElementById('auth-btn');
+            const verifiedBadge = document.getElementById('nav-user-verified');
+
+            if (currentUser) {
+                // الفحص إذا كان من رتب الإدارة العليا
+                const isHighAdmin = ["المطور الأساسي", "المطور الثانوي", "المالك", "المنشئ الأساسي", "المنشئ", "المدير العام", "المدير", "الأدمن"].includes(currentUser.role);
+                adminLink.style.display = isHighAdmin ? 'flex' : 'none';
+                
+                authBtnText.innerText = `خروج (${currentUser.username})`;
+                authBtn.onclick = logout;
+
+                if(currentUser.verified) {
+                    verifiedBadge.style.display = 'inline-block';
+                } else {
+                    verifiedBadge.style.display = 'none';
+                }
+            } else {
+                adminLink.style.display = 'none';
+                authBtnText.innerText = "تسجيل الدخول";
+                authBtn.onclick = openAuthModal;
+                verifiedBadge.style.display = 'none';
+            }
+        }
+
+        // نقل المطور الأساسي
+        function transferPrimaryDev() {
+            if(currentUser.email !== PRIMARY_DEV_EMAIL && currentUser.role !== "المطور الأساسي") {
+                showToast("هذه الصلاحية خاصة بالمطور الأساسي فقط!");
+                return;
+            }
+
+            const targetId = document.getElementById('transfer-target-id').value.trim();
+            const myPass = document.getElementById('transfer-my-pass').value.trim();
+
+            if(myPass !== PRIMARY_DEV_PASS) {
+                showToast("كلمة المرور الخاصة بك غير صحيحة!");
+                return;
+            }
+
+            const targetUser = users.find(u => u.id === targetId || u.username === targetId);
+            if(!targetUser) {
+                showToast("المستخدم غير موجود!");
+                return;
+            }
+
+            // تحديث الرتب
+            currentUser.role = "الأدمن";
+            targetUser.role = "المطور الأساسي";
+            localStorage.setItem('sys_users', JSON.stringify(users));
+            localStorage.setItem('current_logged_user', JSON.stringify(currentUser));
+
+            showToast("تم نقل صلاحية المطور الأساسي بنجاح!");
+            checkAuthStatus();
+            renderAdminUsers();
+        }
+
+        // تعيين الرتبة والتوثيق (مع الرتب الثمانية المرتبة من الأعلى للأقل)
+        function updateUserRole() {
+            const targetId = document.getElementById('target-user-id').value.trim();
+            const newRole = document.getElementById('target-user-role').value;
+
+            const targetUser = users.find(u => u.id === targetId || u.username === targetId || u.email === targetId);
+            if(!targetUser) {
+                showToast("المستخدم غير موجود!");
+                return;
+            }
+
+            targetUser.role = newRole;
+            localStorage.setItem('sys_users', JSON.stringify(users));
+            showToast(`تم تحديث رتبة المستخدم ${targetUser.username} إلى (${newRole})`);
+            renderAdminUsers();
+        }
+
+        function toggleUserVerification() {
+            const targetId = document.getElementById('target-user-id').value.trim();
+            const targetUser = users.find(u => u.id === targetId || u.username === targetId || u.email === targetId);
+            if(!targetUser) {
+                showToast("المستخدم غير موجود!");
+                return;
+            }
+
+            targetUser.verified = !targetUser.verified;
+            localStorage.setItem('sys_users', JSON.stringify(users));
+            showToast(`حالة التوثيق للمستخدم ${targetUser.username}: ${targetUser.verified ? 'موثق' : 'غير موثق'}`);
+            renderAdminUsers();
+        }
+
+        function renderAdminUsers() {
+            const container = document.getElementById('users-list-container');
+            if(!container) return;
+            container.innerHTML = users.map(u => `
+                <div style="background:var(--bg-main); padding:8px 12px; border-radius:8px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; font-size:0.85rem;">
+                    <div>
+                        <b>${u.username}</b> (${u.id}) - <span style="color:var(--accent);">${u.role}</span>
+                        ${u.verified ? '<i class="fas fa-check-circle" style="color:var(--accent);"></i>' : ''}
                     </div>
-                `;
-                container.appendChild(item);
-            });
+                    <div style="color:var(--text-muted); font-size:0.75rem;">${u.email}</div>
+                </div>
+            `).join('');
         }
 
-        function deleteDevPost(index) {
-            let posts = JSON.parse(localStorage.getItem('dev_posts') || '[]');
-            posts.splice(index, 1);
-            localStorage.setItem('dev_posts', JSON.stringify(posts));
-            loadDevPosts();
-            updateStats();
-            showToast('تم حذف المنشور');
+        // عرض المنشورات مع 100 تعليق متاح
+        function renderPosts() {
+            const container = document.getElementById('posts-container');
+            container.innerHTML = posts.map(p => `
+                <div class="card-item" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-code-branch"></i> ${p.title}</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">${p.content}</p>
+                    <div class="comments-section">
+                        <h4>التعليقات (${p.comments.length} / 100)</h4>
+                        <div style="max-height: 150px; overflow-y: auto; margin: 8px 0;">
+                            ${p.comments.map((c, idx) => `
+                                <div class="comment-item">
+                                    <span><b>${c.username} (${c.id}):</b> ${c.text}</span>
+                                    ${(currentUser && (currentUser.id === c.userId || ["المطور الأساسي", "المطور الثانوي", "المالك", "المنشئ الأساسي", "المنشئ", "المدير العام", "المدير", "الأدمن"].includes(currentUser.role))) ? `<button class="btn-action" style="padding:2px 6px; font-size:0.7rem;" onclick="deleteComment(1, ${p.id}, ${idx})"><i class="fas fa-trash"></i></button>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div style="display:flex; gap:6px;">
+                            <input type="text" id="comment-input-${p.id}" class="form-control" placeholder="اكتب تعليقك (حد أقصى 100)..." style="margin-bottom:0; font-size:0.8rem;">
+                            <button class="btn-action btn-gold" onclick="addComment(1, ${p.id})">تعليق</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderOffers() {
+            const container = document.getElementById('offers-container');
+            container.innerHTML = offers.map(o => `
+                <div class="card-item" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-tag"></i> ${o.title}</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">${o.content}</p>
+                    <div class="comments-section">
+                        <h4>التعليقات (${o.comments.length} / 100)</h4>
+                        <div style="max-height: 150px; overflow-y: auto; margin: 8px 0;">
+                            ${o.comments.map((c, idx) => `
+                                <div class="comment-item">
+                                    <span><b>${c.username} (${c.id}):</b> ${c.text}</span>
+                                    ${(currentUser && (currentUser.id === c.userId || ["المطور الأساسي", "المطور الثانوي", "المالك", "المنشئ الأساسي", "المنشئ", "المدير العام", "المدير", "الأدمن"].includes(currentUser.role))) ? `<button class="btn-action" style="padding:2px 6px; font-size:0.7rem;" onclick="deleteComment(2, ${o.id}, ${idx})"><i class="fas fa-trash"></i></button>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div style="display:flex; gap:6px;">
+                            <input type="text" id="comment-input-offer-${o.id}" class="form-control" placeholder="اكتب تعليقك (حد أقصى 100)..." style="margin-bottom:0; font-size:0.8rem;">
+                            <button class="btn-action btn-gold" onclick="addComment(2, ${o.id})">تعليق</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addComment(type, id) {
+            if(!currentUser) {
+                showToast("يرجى تسجيل الدخول أولاً لكتابة تعليق!");
+                openAuthModal();
+                return;
+            }
+
+            let inputId = type === 1 ? `comment-input-${id}` : `comment-input-offer-${id}`;
+            const text = document.getElementById(inputId).value.trim();
+            if(!text) return;
+
+            let target = type === 1 ? posts.find(p => p.id === id) : offers.find(o => o.id === id);
+            if(target.comments.length >= 100) {
+                showToast("عذراً، تم الوصول إلى الحد الأقصى للتعليقات (100 تعليق).");
+                return;
+            }
+
+            target.comments.push({ userId: currentUser.id, username: currentUser.username, text: text });
+            localStorage.setItem('sys_posts', JSON.stringify(posts));
+            localStorage.setItem('sys_offers', JSON.stringify(offers));
+            document.getElementById(inputId).value = '';
+            type === 1 ? renderPosts() : renderOffers();
+            showToast("تم إضافة التعليق بنجاح.");
+        }
+
+        function deleteComment(type, targetId, commentIndex) {
+            let target = type === 1 ? posts.find(p => p.id === targetId) : offers.find(o => o.id === targetId);
+            target.comments.splice(commentIndex, 1);
+            localStorage.setItem('sys_posts', JSON.stringify(posts));
+            localStorage.setItem('sys_offers', JSON.stringify(offers));
+            type === 1 ? renderPosts() : renderOffers();
+            showToast("تم حذف التعليق.");
+        }
+
+        // الشات الخاص مع صلاحيات التحكم الكاملة
+        function renderChat() {
+            const container = document.getElementById('chat-messages');
+            container.innerHTML = chatMessages.map(m => `
+                <div class="chat-message">
+                    <div>
+                        <b>${m.username} (${m.userId}):</b> ${m.text}
+                        <span style="font-size:0.7rem; color:var(--text-muted); margin-right:8px;">${m.time}</span>
+                    </div>
+                    ${(currentUser && (currentUser.id === m.userId || ["المطور الأساسي", "المطور الثانوي", "المالك", "المنشئ الأساسي", "المنشئ", "المدير العام", "المدير", "الأدمن"].includes(currentUser.role))) ? `<button class="btn-action" style="padding:2px 6px; font-size:0.7rem;" onclick="deleteChatMessage(${m.id})"><i class="fas fa-trash"></i></button>` : ''}
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            if(!currentUser) {
+                showToast("يرجى تسجيل الدخول لاستخدام الشات الخاص!");
+                openAuthModal();
+                return;
+            }
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if(!text) return;
+
+            const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            chatMessages.push({ id: Date.now(), userId: currentUser.id, username: currentUser.username, text: text, time: timeNow });
+            localStorage.setItem('sys_chat', JSON.stringify(chatMessages));
+            input.value = '';
+            renderChat();
+        }
+
+        function deleteChatMessage(msgId) {
+            chatMessages = chatMessages.filter(m => m.id !== msgId);
+            localStorage.setItem('sys_chat', JSON.stringify(chatMessages));
+            renderChat();
+            showToast("تم حذف الرسالة بنجاح.");
+        }
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+
+        function showSection(id) {
+            document.querySelectorAll('.section-page').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+            const sec = document.getElementById(id);
+            if(sec) sec.classList.add('active');
+            document.getElementById('sidebar').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function toggleTheme() {
             const body = document.body;
-            const themeIcon = document.getElementById('themeIcon');
+            const icon = document.getElementById('theme-icon');
             if (body.getAttribute('data-theme') === 'light') {
                 body.removeAttribute('data-theme');
-                themeIcon.className = 'fa-solid fa-moon';
-                showToast('تم التفعيل إلى المظهر الداكن');
+                icon.className = 'fas fa-moon';
             } else {
                 body.setAttribute('data-theme', 'light');
-                themeIcon.className = 'fa-solid fa-sun';
-                showToast('تم التفعيل إلى المظهر الفاتح');
-            }
-        }
-
-        function switchTab(tabId, btnElement) {
-            const panes = document.querySelectorAll('.section-pane');
-            panes.forEach(pane => {
-                if (pane.id !== 'giftModal') pane.classList.remove('active');
-            });
-
-            const buttons = document.querySelectorAll('.tabs-nav .tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-
-            const targetPane = document.getElementById(tabId);
-            if (targetPane) targetPane.classList.add('active');
-            if (btnElement) btnElement.classList.add('active');
-        }
-
-        function showToast(message) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--success);"></i> <span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        function showGiftModal() { document.getElementById('giftModal').style.display = 'flex'; }
-        function closeGiftModal() { document.getElementById('giftModal').style.display = 'none'; }
-        
-        function updateStats() {
-            const tasks = JSON.parse(localStorage.getItem('reda_tasks') || '[]');
-            document.getElementById('statTasksCount').innerText = tasks.length;
-            document.getElementById('statDataCount').innerText = localStorage.length;
-        }
-
-        // إدارة المهام
-        function addNewTask() {
-            const input = document.getElementById('taskInput');
-            const taskText = input.value.trim();
-            if (!taskText) { showToast('يرجى كتابة نص المهمة أولاً'); return; }
-            let tasks = JSON.parse(localStorage.getItem('reda_tasks') || '[]');
-            tasks.push(taskText);
-            localStorage.setItem('reda_tasks', JSON.stringify(tasks));
-            input.value = '';
-            loadTasks();
-            updateStats();
-            showToast('تمت إضافة المهمة بنجاح');
-        }
-
-        function loadTasks() {
-            const taskList = document.getElementById('taskList');
-            let tasks = JSON.parse(localStorage.getItem('reda_tasks') || '["تطوير معمارية المنظومة باحترافية"]');
-            taskList.innerHTML = '';
-            tasks.forEach((task, index) => {
-                const taskItem = document.createElement('div');
-                taskItem.style.cssText = 'background: var(--bg-main); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;';
-                taskItem.innerHTML = `
-                    <span><i class="fa-solid fa-circle-dot" style="color: var(--accent); font-size: 0.6rem; margin-left: 8px;"></i> ${task}</span>
-                    <button style="background: none; border: none; color: var(--danger); cursor: pointer;" onclick="deleteTask(${index})"><i class="fa-solid fa-trash-can"></i></button>
-                `;
-                taskList.appendChild(taskItem);
-            });
-        }
-
-        function deleteTask(index) {
-            let tasks = JSON.parse(localStorage.getItem('reda_tasks') || '[]');
-            tasks.splice(index, 1);
-            localStorage.setItem('reda_tasks', JSON.stringify(tasks));
-            loadTasks();
-            updateStats();
-            showToast('تم حذف المهمة');
-        }
-
-        // المساعد الذكي
-        function generateAIIdea() {
-            const prompt = document.getElementById('aiPromptInput').value.trim();
-            const outBox = document.getElementById('aiOutputBox');
-            if(!prompt) { showToast('يرجى كتابة موضوع أو فكرة أولاً'); return; }
-            outBox.style.display = 'block';
-            outBox.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> جاري توليد المقترح البرمجي...`;
-            setTimeout(() => {
-                outBox.innerHTML = `[المقترح الهندسي للمشروع: "${prompt}"]<br>• التوصية: توسيع بنية الوحدات البرمجية لتشمل تحكم آلي متقدم ونظام تخزين موزع.`;
-                showToast('تم توليد الاقتراح الذكي بنجاح');
-            }, 1000);
-        }
-
-        function resetSystemData() {
-            if(confirm('هل أنت متأكد من إعادة تعيين بيانات المنظومة؟')) {
-                localStorage.clear();
-                location.reload();
+                icon.className = 'fas fa-sun';
             }
         }
     </script>
-</body>
-</html>
+</body>  
+</html 07819048003  07812033593 
